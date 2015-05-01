@@ -2,10 +2,11 @@
   "name": "Contacts",
   "version": "1.0.0",
   "description": "Single page contact list app",
-  "main": "index.js",
+  "main": "main.js",
   "author": "Eric deRegt",
   "license": "ISC",
   "dependencies": {
+    "director": "^1.2.8",
     "json-server": "^0.7.2"
   }
 }
