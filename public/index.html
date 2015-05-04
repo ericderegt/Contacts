@@ -7,21 +7,18 @@
     <meta name=viewport content="width=device-width, initial-scale=1">
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href ="./bower_components/semantic-ui/dist/semantic.css">
-    <script src="./bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="./bower_components/semantic-ui/dist/semantic.js"></script>
-
-<!-- <script src="https://rawgit.com/flatiron/director/master/build/director.min.js"></script> -->
+    <link rel="stylesheet" href ="./main.css">
 </head>
 <body>
    
-    <div class="ui pointing fixed small menu">
-        <a class="active item">
+    <nav class="ui pointing fixed small menu">
+        <a class="active item home" href="/">
             <i class="home icon"></i> Home
         </a>
-        <a class="item">
+        <a class="item add" href="#/add">
             <i class="mail icon"></i> Add
         </a>
-        <a class="item">
+        <a class="item about" href="#/about">
             <i class="user icon"></i> About
         </a>
         
@@ -36,116 +33,73 @@
                 </div>
             </div>
         </div>
-    </div>
+    </nav>
   
-    <div class="ui centered grid">
-        <div class="eight wide column">
-            <table class="ui celled table">
-                <thead>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>                                        
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>                                        
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>                                        
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>
-                    <tr>
-                        <td>Lorem ipsum dolor sit amet</td>
-                        <td>blah@gmail.com</td>
-                        <td>(212)777-4555</td>
-                    </tr>                                                        
-            </tbody>
-          </table>
-            <div class="ui right dividing rail">
-                <div class="ui segment">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At pariatur temporibus, perferendis adipisci odio provident eos cum, atque, iste nostrum accusamus. Sapiente voluptate delectus esse tenetur debitis, consectetur unde cupiditate. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos excepturi repellat rerum. Itaque sed tenetur blanditiis dicta iusto sint esse earum aperiam maxime, commodi est consequatur aut, minus doloremque hic!
+    <main class="ui page grid">
+        <div class="two column row">
+            <div class="eleven wide column mainContent">
+                <table class="ui celled table mainList">
+                    <thead>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                    </thead>
+                    <tbody>                                                   
+                    </tbody>
+                </table>
+            </div>
+            <div class="five wide column rightContent">
+                <div class="ui tertiary sticky segment">
+                    Welcome to Contacts! Click on an individual contact for more information or click add to create a new category or contact.
                 </div>
             </div>
         </div>
-    </div>
-  <script src="./main.js"></script>
+    </main>
+
+    <script type="text/template" data-id="template">
+        <tr data-id='{{id}}'>
+          <td data-attr='name' contenteditable='false'>{{name}}</td>
+          <td data-attr='email'>{{email}}</td>
+          <td data-attr='phone'>{{phone}}</td>
+        </tr>
+    </script>
+    
+    <script type="text/template" data-id="addtemplate">
+        <form class="ui small form segment">
+            <h4 class="ui dividing header">Personal Information</h4>
+            <div class="field">
+                <label>Name</label>
+                <input type="text" data-attr="name" placeholder="Name" required>
+            </div>
+            <div class="field">
+                <label>Email</label>
+                <input type="text" data-attr="email" placeholder="Email" required>
+            </div>
+            <div class="field">
+                <label>Phone</label>
+                <input type="text" data-attr="phone" placeholder="Phone" required>
+            </div>
+            <div class="field">
+                <label>City</label>
+                <input type="text" data-attr="city" placeholder="City" required>
+            </div>
+            <div class="field">
+                <label>Image</label>
+                <input type="text" data-attr="image_url" placeholder="Image URL" required>
+            </div>
+            <div class="field">
+                <label>Category</label>
+                <input type="text" data-attr="categoryId" placeholder="Category" required>
+            </div>
+            <button data-action='addContact' class='ui button green'>Add Contact</button>
+        </form>
+    </script>
+
+
+    <script src="./bower_components/jquery/dist/jquery.min.js"></script>
+    <script src=".//bower_components/mustache/mustache.js"></script>
+    <script src="./bower_components/semantic-ui/dist/semantic.js"></script>
+    <script src="./bower_components/director/build/director.min.js"></script>
+    <script src="./main.js"></script>
 </body>
 </html>
