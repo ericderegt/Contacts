@@ -12,13 +12,16 @@
 <body>
    
     <nav class="ui pointing fixed small menu">
-        <a class="active item home" href="/">
+        <a class="active item main home" href="#/home">
             <i class="home icon"></i> Home
         </a>
-        <a class="item add" href="#/add">
-            <i class="mail icon"></i> Add
+        <a class="item main add" href="#/add">
+            <i class="add user icon"></i> Add
         </a>
-        <a class="item about" href="#/about">
+        <a class="item main new" href="#/new">
+            <i class="tag icon"></i> New
+        </a>
+        <a class="item main about" href="#/about">
             <i class="user icon"></i> About
         </a>
         
@@ -26,10 +29,7 @@
             <div class="ui dropdown item">
                 Sort
                 <i class="dropdown icon"></i>
-                <div class="menu">
-                    <a class="item">Friends</a>
-                    <a class="item">Work</a>
-                    <a class="item">Family</a>
+                <div class="menu rightDropdown">
                 </div>
             </div>
         </div>
@@ -49,8 +49,8 @@
                 </table>
             </div>
             <div class="five wide column rightContent">
-                <div class="ui tertiary sticky segment">
-                    Welcome to Contacts! Click on an individual contact for more information or click add to create a new category or contact.
+                <div class="ui tertiary segment mainSticky">
+                    Welcome to Contacts! Click on an individual contact for more information or click add to create a new category or contact. You can sort contacts by category by clicking on the sort menu on the upper right.
                 </div>
             </div>
         </div>
@@ -58,15 +58,23 @@
 
     <script type="text/template" data-id="template">
         <tr data-id='{{id}}'>
-          <td data-attr='name' contenteditable='false'>{{name}}</td>
+          <td data-attr='name' contenteditable='false'><a href="#/contacts/{{id}}">{{name}}</a></td>
           <td data-attr='email'>{{email}}</td>
           <td data-attr='phone'>{{phone}}</td>
         </tr>
     </script>
+
+    <script type="text/template" data-id="newContactTemplate">
+        <tr data-id='{{id}}' class="fadeIn">
+          <td data-attr='name' contenteditable='false'><a href="#/contacts/{{id}}">{{name}}</a></td>
+          <td data-attr='email'>{{email}}</td>
+          <td data-attr='phone'>{{phone}}</td>
+        </tr>
+    </script>    
     
-    <script type="text/template" data-id="addtemplate">
+    <script type="text/template" data-id="addTemplate">
         <form class="ui small form segment">
-            <h4 class="ui dividing header">Personal Information</h4>
+            <h4 class="ui dividing header">New Contact</h4>
             <div class="field">
                 <label>Name</label>
                 <input type="text" data-attr="name" placeholder="Name" required>
@@ -89,13 +97,68 @@
             </div>
             <div class="field">
                 <label>Category</label>
-                <input type="text" data-attr="categoryId" placeholder="Category" required>
+                <select>
+                    {{#eachCat}}
+                    <option class="item" data-id="{{id}}" data-value="categoryId" data-name="{{name}}">{{name}}</div>
+                    {{/eachCat}}
+                </select>
             </div>
             <button data-action='addContact' class='ui button green'>Add Contact</button>
         </form>
     </script>
 
+    <script type="text/template" data-id="newTemplate">
+        <form class="ui small form segment">
+            <h4 class="ui dividing header">New Category</h4>
+            <div class="field">
+                <label>Name</label>
+                <input type="text" data-attr="name" placeholder="Name" required>
+            </div>
+            <button data-action='addCategory' class='ui button green'>Add Category</button>
+        </form>
+        <table class="ui celled table categoryList">
+            <tbody>                                                   
+            </tbody>
+        </table>
+    </script>
 
+    <script type="text/template" data-id="cardTemplate">
+        <div class="ui card" data-id="{{id}}">
+            <a class="image">
+                <img src="{{image_url}}">
+            </a>
+            <div class="content">
+                <a class="header" contenteditable="true" data-attr="name">{{name}}</a>
+                <div class="meta">
+                    <a contenteditable="true" data-attr="city">{{city}}</a>
+                </div>
+                <div class="description">
+                    <div class="ui bulleted list">
+                        <a class="item" contenteditable="true">Phone: <span data-attr="phone">{{phone}}</span></a>
+                        <a class="item" contenteditable="true">Email: <span data-attr="email">{{email}}</span></a>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                <div class="extra content">
+                    <button data-action="editContact" class="ui button">Edit</button>
+                    <button data-action="deleteContact" class="ui button">Delete</button>
+                </div>
+            </div>
+        </div>
+    </script>
+    
+    <script type="text/template" data-id="catNameTemplate">
+        <div class="item" data-id="{{id}}">{{name}}</div>
+    </script>
+
+    <script type="text/template" data-id="catRowTemplate">
+        <tr data-id='{{id}}'>
+          <td data-attr='name' contenteditable='true'>{{name}}</td>
+          <td><button data-action="editCategory" class="ui small green button">Edit</button></td>
+          <td><button data-action="deleteCategory" class="ui small red button">Delete</button></td>
+        </tr>
+    </script>
+    
     <script src="./bower_components/jquery/dist/jquery.min.js"></script>
     <script src=".//bower_components/mustache/mustache.js"></script>
     <script src="./bower_components/semantic-ui/dist/semantic.js"></script>

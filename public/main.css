@@ -1,3 +1,8 @@
+html{
+  height: 100%;
+}
+
+
 *{
   margin: 0;
   padding: 0;
@@ -6,4 +11,39 @@
 body{
   font-family: 'Open Sans', sans-serif;
   margin-bottom: 60px;
+  height: 100%;
+}
+
+.mainSticky{
+  width: 200px;
+  height: 200px;
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
 }

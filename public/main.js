@@ -1,8 +1,20 @@
 $(document).ready(function(){
-  
+// initialization and variable declaration
+
   var template = $('script[data-id="template"]').text();
-  var addtemplate = $('script[data-id="addtemplate"]').text();
+  var addTemplate = $('script[data-id="addTemplate"]').text();
+  var newTemplate = $('script[data-id="newTemplate"]').text();
+  var newContactTemplate = $('script[data-id="newContactTemplate"]').text();
+  var catNameTemplate = $('script[data-id="catNameTemplate"]').text();
+  var catRowTemplate = $('script[data-id="catRowTemplate"]').text();
+  var cardTemplate = $('script[data-id="cardTemplate').text();
+  var $right = $('.rightContent');
+  var $main = $('.mainContent');
   getContacts();
+  populateCategories();
+
+///////////// Functions ///////////
+///////////////////////////////////
 
 // AJAX call to populate main table
   function getContacts(){ 
@@ -17,30 +29,185 @@ $(document).ready(function(){
     });
   };
 
-// Add Contact Event Listener and Function
-  // $('body')
- 
-// Semantic JS
-  // $('.ui.dropdown').click(function(){
-  //   $(this).dropdown();
-  // });
+//this is for the dropdown list of categories on the menu
+  function populateCategories(){
+    $.ajax({
+      url: '/categories',
+      type: 'GET'
+    }).done(function(categories){
+      $('.rightDropdown').empty();
+      var categoryEls = categories.map(function(indCat){
+        return Mustache.render(catNameTemplate, indCat);
+      });
+      $('.rightDropdown').append(categoryEls);
+    });
+  }
 
+// This is the function for showing the category content in the right container that you can edit
+  function showCategories(){
+    $.ajax({
+      url: '/categories',
+      type: 'GET'
+    }).done(function(categories){
+      var categoryEls = categories.map(function(indCat){
+        return Mustache.render(catRowTemplate, indCat);
+      });
+      $right.find('tbody').append(categoryEls);
+    });
+  }
+
+// Welcome message
+  function welcomeMessage(){
+    $right.empty();
+    var welcome = "<div class='ui tertiary sticky segment mainSticky'>Welcome to Contacts! Click on an individual contact for more information or click add to create a new category or contact. Sort contacts by category using sort menu on top right.</div>"
+    $right.append(welcome);
+  }
+
+// Display contact
+  function displayContact(id){
+    $.ajax({
+      url: '/contacts/' + id,
+      type: 'GET'
+    }).done(function(contact){
+      var contactCard = Mustache.render(cardTemplate, contact);
+      $right.empty();
+      $right.append(contactCard);
+    });
+  }
+ 
+///////////// Listeners ///////////
+///////////////////////////////////
+
+// UI Dropdown event listeners
   $('.ui.dropdown').dropdown({
     onChange: function(val){
       console.log(val);
     }
   });
 
-  $('a.item').click(function(){
+  $right.on("click",".ui.dropdown",function(e){
+    $(this).dropdown();
+  })
+
+  $('body').on("change","select",function(e){
+    $(this).addClass('chosen');
+  });
+
+// Click contact event listener
+  $('tbody').on("click",".indContact",function(e){
+    var row = $(this).parents('tr');
+    var id = row.attr('data-id');
+    displayContact(id);
+  })
+
+// Top left menu click event listener
+  $('a.item.main').click(function(){
     $('.item').removeClass('active');
     $(this).addClass('active');
   });
 
-  $('.ui.sticky').sticky({context: '.mainList'});
+// Sort event listener
+  $('.rightDropdown').on("click",".item",function(e){
+    var id = parseInt($(this).attr('data-id'));
+    console.log(id);
 
+    $.ajax({
+      url: '/contacts',
+      type: 'GET'
+    }).done(function(data){
+      $('tbody').empty();
+      var contactEls = data.map(function(indContact) {
+        console.log(indContact.categoryId);
+        if(indContact.categoryId === id) {
+          return Mustache.render(template, indContact);
+        };
+      });
+      $('tbody').append(contactEls);
+    });
+  });
+
+// Delete Contact event listener and AJAX call
+  $right.on("click","[data-action='deleteContact']",function(e){
+    var id = $(this).parents('.ui.card').attr('data-id');
+
+    $.ajax({
+      url: '/contacts/' + id,
+      type: 'DELETE'
+    }).success(function(data){
+       $('.mainList').find("[data-id='" + id + "']").remove();
+       $right.empty();
+       $right.append("Contact deleted!");     
+    });
+  })
+
+// Edit Contact event listener and AJAX call
+  $right.on("click","[data-action='editContact']",function(e){
+    var id = $(this).parents('.ui.card').attr('data-id');
+    var name = $right.find('[data-attr="name"]').text();
+    var email = $right.find('[data-attr="email"]').text();
+    var phone = $right.find('[data-attr="phone"]').text();
+    var city = $right.find('[data-attr="city"]').text();
+    var payload = JSON.stringify({"name": name, "email": email, "phone": phone, "city": city});
+    
+    $.ajax({
+      url: '/contacts/' + id,
+      type: 'PATCH',
+      data: {
+        "name": name,
+        "email": email,
+        "phone": phone,
+        "city": city
+      }
+    }).success(function(data){
+      $('.mainList').find("[data-id='" + id + "']").remove();
+      var html = Mustache.render(template, data);
+      $('tbody').prepend(html);
+    });
+  });
+
+// Delete Contact event listener and AJAX call
+  $right.on("click","[data-action='deleteContact']",function(e){
+    var id = $(this).parents('.ui.card').attr('data-id');
+
+    $.ajax({
+      url: '/contacts/' + id,
+      type: 'DELETE'
+    }).success(function(data){
+       $('.mainList').find("[data-id='" + id + "']").remove();
+       $right.empty();
+       $right.append("Contact deleted!");     
+    });
+  })
+
+// Edit Contact event listener and AJAX call
+  $right.on("click","[data-action='editContact']",function(e){
+    var id = $(this).parents('.ui.card').attr('data-id');
+    var name = $right.find('[data-attr="name"]').text();
+    var email = $right.find('[data-attr="email"]').text();
+    var phone = $right.find('[data-attr="phone"]').text();
+    var city = $right.find('[data-attr="city"]').text();
+    var payload = JSON.stringify({"name": name, "email": email, "phone": phone, "city": city});
+    
+    $.ajax({
+      url: '/contacts/' + id,
+      type: 'PATCH',
+      data: {
+        "name": name,
+        "email": email,
+        "phone": phone,
+        "city": city
+      }
+    }).success(function(data){
+      $('.mainList').find("[data-id='" + id + "']").remove();
+      var html = Mustache.render(template, data);
+      $('tbody').prepend(html);
+    });
+  });
+
+///////////// Routes ///////////
+///////////////////////////////////
 // Add Route
   function add(){
-    var $right = $('.rightContent')
     $right.empty();
  
     $.ajax({
@@ -48,17 +215,23 @@ $(document).ready(function(){
       type: 'GET'
     }).done(function(categories){
       console.log(categories)
-      var rendered = Mustache.render(addtemplate, {eachCat: categories});
+      var rendered = Mustache.render(addTemplate, {eachCat: categories});
       $right.append(rendered);
       
-      $('[data-action="addContact"]').on("click",function(event){
-          // Jeff's code from other example
-          // var row = $(e.target).parents('tr');
-          // var id = row.attr('data-id');
+      $('[data-action="addContact"]').on("click",function(e){
+        e.preventDefault();
 
-          // var client_name = row.find('[data-attr="client_name"]').text();
-          // var amount = row.find('[data-attr="amount"]').text();
+        var selected = $('select').val();
+        // Fields for POST request
+        var name = $right.find('[data-attr="name"]').val();
+        var email = $right.find('[data-attr="email"]').val();
+        var phone = $right.find('[data-attr="phone"]').val();
+        var city = $right.find('[data-attr="city"]').val();
+        var image_url = $right.find('[data-attr="image_url"]').val();
+        var categoryId = $('form').find('option[data-name="' + selected + '"]').attr('data-id');
+        console.log(categoryId);
 
+        //AJAX POST call and prepend to main table
         $.ajax({
           url: '/contacts',
           type: 'POST',
@@ -71,20 +244,43 @@ $(document).ready(function(){
             "categoryId": categoryId
           }
         }).done(function(data){
-          var html = Mustache.render(template, data);
+          var html = Mustache.render(newContactTemplate, data);
           $('tbody').prepend(html);
         })
+
       })
+    });
+  };
+
+// New Category Routes
+  function newCat(){
+    $right.empty();
+    var rendered = Mustache.render(newTemplate);
+    $right.append(rendered);
+    showCategories();
+
+    $('[data-action="addCategory"]').on("click",function(e){
+      e.preventDefault();
+      var name = $right.find('[data-attr="name"]').val();
+
+      $.ajax({
+        url: '/categories',
+        type: 'POST',
+        data: {"name": name}
+      }).done(function(data){
+        $right.empty();
+        showCategories();
+      });
     });
   };
 
 // Home Route
   function home(){
-    var $main = $('.mainContent')
     $main.empty();
     var tableTemp = "<table class='ui celled table mainList'><thead><th>Name</th><th>Email</th><th>Phone</th></thead><tbody></tbody></table>";
     $main.append(tableTemp);
     getContacts();
+    welcomeMessage();
   };
 
 // About Route
@@ -101,7 +297,11 @@ $(document).ready(function(){
   var routes = {
       "/home": home,
       "/add": add,
-      "/about": about
+      "/new": newCat,
+      "/about": about,
+      "/contacts": {"/:id": 
+        {on: function(id){displayContact(id)}}
+      }
   }
 
   var router = Router(routes);
