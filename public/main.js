@@ -147,7 +147,6 @@ $(document).ready(function(){
     var email = $right.find('[data-attr="email"]').text();
     var phone = $right.find('[data-attr="phone"]').text();
     var city = $right.find('[data-attr="city"]').text();
-    var payload = JSON.stringify({"name": name, "email": email, "phone": phone, "city": city});
     
     $.ajax({
       url: '/contacts/' + id,
@@ -165,42 +164,35 @@ $(document).ready(function(){
     });
   });
 
-// Delete Contact event listener and AJAX call
-  $right.on("click","[data-action='deleteContact']",function(e){
-    var id = $(this).parents('.ui.card').attr('data-id');
+// Delete Category event listener and AJAX call
+  $right.on("click","[data-action='deleteCategory']",function(e){
+    var id = $(this).parents('tr').attr('data-id');
 
     $.ajax({
-      url: '/contacts/' + id,
+      url: '/categories/' + id,
       type: 'DELETE'
     }).success(function(data){
-       $('.mainList').find("[data-id='" + id + "']").remove();
        $right.empty();
-       $right.append("Contact deleted!");     
+       $right.append("Category deleted!");
+       showCategories();     
     });
   })
 
-// Edit Contact event listener and AJAX call
-  $right.on("click","[data-action='editContact']",function(e){
-    var id = $(this).parents('.ui.card').attr('data-id');
+// Edit Category event listener and AJAX call
+  $right.on("click","[data-action='editCategory']",function(e){
+    var id = $(this).parents('tr').attr('data-id');
     var name = $right.find('[data-attr="name"]').text();
-    var email = $right.find('[data-attr="email"]').text();
-    var phone = $right.find('[data-attr="phone"]').text();
-    var city = $right.find('[data-attr="city"]').text();
-    var payload = JSON.stringify({"name": name, "email": email, "phone": phone, "city": city});
     
     $.ajax({
-      url: '/contacts/' + id,
+      url: '/categories/' + id,
       type: 'PATCH',
       data: {
         "name": name,
-        "email": email,
-        "phone": phone,
-        "city": city
       }
     }).success(function(data){
-      $('.mainList').find("[data-id='" + id + "']").remove();
-      var html = Mustache.render(template, data);
-      $('tbody').prepend(html);
+       $right.empty();
+       $right.append("Category edited!");
+       showCategories();   
     });
   });
 
