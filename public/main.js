@@ -5,9 +5,12 @@ $(document).ready(function(){
   var addTemplate = $('script[data-id="addTemplate"]').text();
   var newTemplate = $('script[data-id="newTemplate"]').text();
   var newContactTemplate = $('script[data-id="newContactTemplate"]').text();
+  var catTableTemplate = $('script[data-id="catTableTemplate"]').text();
   var catNameTemplate = $('script[data-id="catNameTemplate"]').text();
   var catRowTemplate = $('script[data-id="catRowTemplate"]').text();
   var cardTemplate = $('script[data-id="cardTemplate').text();
+  var aboutTemplate = $('script[data-id="aboutTemplate').text();
+  var modalTemplate = $('script[data-id="modalTemplate').text();
   var $right = $('.rightContent');
   var $main = $('.mainContent');
   getContacts();
@@ -134,9 +137,9 @@ $(document).ready(function(){
       url: '/contacts/' + id,
       type: 'DELETE'
     }).success(function(data){
-       $('.mainList').find("[data-id='" + id + "']").remove();
-       $right.empty();
-       $right.append("Contact deleted!");     
+      $('.mainList').find("[data-id='" + id + "']").remove();
+      $right.empty();
+      $right.append("Contact deleted!");     
     });
   })
 
@@ -172,16 +175,19 @@ $(document).ready(function(){
       url: '/categories/' + id,
       type: 'DELETE'
     }).success(function(data){
-       $right.empty();
-       $right.append("Category deleted!");
-       showCategories();     
+      $right.empty();
+      $right.append("Category deleted!");
+      var table = Mustache.render(catTableTemplate);
+      $right.append(table);
+      showCategories();     
     });
   })
 
 // Edit Category event listener and AJAX call
   $right.on("click","[data-action='editCategory']",function(e){
     var id = $(this).parents('tr').attr('data-id');
-    var name = $right.find('[data-attr="name"]').text();
+    var name = $right.find("[data-id='" + id + "']").children()[0].innerText;
+    console.log(name);
     
     $.ajax({
       url: '/categories/' + id,
@@ -190,9 +196,11 @@ $(document).ready(function(){
         "name": name,
       }
     }).success(function(data){
-       $right.empty();
-       $right.append("Category edited!");
-       showCategories();   
+      $right.empty();
+      $right.append("Category edited!");
+      var table = Mustache.render(catTableTemplate);
+      $right.append(table);
+      showCategories();   
     });
   });
 
@@ -249,6 +257,8 @@ $(document).ready(function(){
     $right.empty();
     var rendered = Mustache.render(newTemplate);
     $right.append(rendered);
+    var table = Mustache.render(catTableTemplate);
+    $right.append(table);
     showCategories();
 
     $('[data-action="addCategory"]').on("click",function(e){
@@ -261,6 +271,7 @@ $(document).ready(function(){
         data: {"name": name}
       }).done(function(data){
         $right.empty();
+        $right.append(table);
         showCategories();
       });
     });
@@ -277,12 +288,15 @@ $(document).ready(function(){
 
 // About Route
   function about(){
-    var $main = $('.mainContent')
-    $main.empty();
-    var $right = $('.rightContent')
-    $right.empty();
-    var aboutTemp = "Eric made this project";
-    $main.append(aboutTemp);
+    // var $main = $('.mainContent')
+    // $main.empty();
+    // var $right = $('.rightContent')
+    // $right.empty();
+    // $main.append(aboutTemplate);
+
+    $('div[data-attr="item-modal"]').empty();
+    $('main').append(Mustache.render(modalTemplate));
+    $('div[data-attr="item-modal"]').modal('show');
   };
 
 // Router

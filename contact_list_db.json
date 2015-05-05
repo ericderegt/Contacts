@@ -1,0 +1,81 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Family"
+    },
+    {
+      "id": 2,
+      "name": "Friends"
+    },
+    {
+      "name": "Work",
+      "id": 5
+    }
+  ],
+  "contacts": [
+    {
+      "id": 1,
+      "categoryId": 5,
+      "name": "Neel Patel",
+      "city": "New York City",
+      "phone": "312-345-5421",
+      "email": "NJP3000@hotmail.com",
+      "image_url": "https://pbs.twimg.com/profile_images/1314994994/twitterpic_400x400.png"
+    },
+    {
+      "id": 2,
+      "categoryId": 5,
+      "name": "Andrew Fritz",
+      "city": "SFO",
+      "phone": "318-345-9111",
+      "email": "fritz@gmail.com",
+      "image_url": "https://media.licdn.com/mpr/mpr/shrink_200_200/p/3/000/0f4/24a/18580be.jpg"
+    },
+    {
+      "name": "Eric deRegt",
+      "email": "ericderegt@gmail.com",
+      "phone": "650-823-5797",
+      "city": "New York",
+      "image_url": "http://i.giphy.com/3oEduITwCAnJxfphoA.gif",
+      "categoryId": 1,
+      "id": 4
+    },
+    {
+      "name": "Gabby",
+      "email": "glosch00@gmail.com",
+      "phone": "234-566-9979",
+      "city": "NYC",
+      "image_url": "http://i.giphy.com/9wWMrMJoFCadi.gif",
+      "categoryId": 1,
+      "id": 5
+    },
+    {
+      "name": "John",
+      "email": "john@gmail.com",
+      "phone": "123-234-5827",
+      "city": "Austin",
+      "image_url": "http://i.giphy.com/qJ51WhS4So3wk.gif",
+      "categoryId": 2,
+      "id": 6
+    },
+    {
+      "name": "Julia",
+      "email": "julia@gmail.com",
+      "phone": "123-345-5687",
+      "city": "NYC",
+      "image_url": "http://i.giphy.com/QJcRf1CSfZ8HK.gif",
+      "categoryId": 2,
+      "id": 9
+    },
+    {
+      "name": "Sean",
+      "email": "sean@gmail.com",
+      "phone": "212-333-4899",
+      "city": "SF",
+      "image_url": "http://i.giphy.com/dtCNbdAKWhfJ6.gif",
+      "categoryId": 2,
+      "id": 11
+    }
+  ]
+}

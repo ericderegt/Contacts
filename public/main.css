@@ -39,6 +39,7 @@ body{
   }
 }
 
+/*Pulled from animate.css*/
 .fadeIn {
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
