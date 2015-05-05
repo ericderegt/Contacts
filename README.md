@@ -1,6 +1,6 @@
 ##Contact List
 
-[Link to Deployed Version](http://45.55.169.72)
+[Link to Deployed Version](http://45.55.169.72:3000)
 
 [Link to Trello board](https://trello.com/b/137fwPRz/wdi-project-two)
 
